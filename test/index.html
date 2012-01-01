@@ -1,0 +1,624 @@
+<!--
+/*
+* Copyright (c) 2011 FeZo, Inc. A Delaware Corporation.
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+Questions: greg@fezo.com
+-->
+<html>
+<head>
+	<title>JSONPatch Test</title>
+	<script type='text/javascript' src='../src/jsonpatch.js'></script>
+	<script type='text/javascript'>
+		var index = 0;
+		var testIndex = 1;
+		var errorCount = 0;
+		var passedCount = 0;
+		var didPass = true;
+		var results = [];
+		var alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+		
+		function finishTest(){
+			var resultsStr = "";
+			for(var i = 0, iLen = results.length; i < iLen; i++) {
+				var result = results[i];
+				if (result.indexOf('Starting Test') != -1) {
+					index = 0;
+					resultsStr += "<b>" + testIndex.toString() + ") " + result + "</b><br/><br/>";
+					testIndex++;
+				} else {
+					if (result.indexOf('Passed:') != -1) {
+						resultsStr += (testIndex-1).toString() + alpha[index-1] + ") <span style='color: green;'>" + result + "</span><br/><br/>";
+						passedCount++;
+					} else {
+						resultsStr += (testIndex-1).toString() + alpha[index-1] + ") <span style='color: red;'>" + result + "</span><br/><br/>";
+						errorCount++;
+					}
+				}
+				index++;
+			}
+			
+			if(didPass) {
+				resultsStr = "<h1 style='color: green;'>JSONPatch Success:</h1> <h2>All Tests Passed!</h2>" + resultsStr;
+			} else {
+				resultsStr = "<h1 style='color: red;'>JSONPatch Failure:</h1> <h2>" + errorCount + " out of " + (errorCount+passedCount) + " JSONPatch Tests Failed!</h2>" + resultsStr;
+			}
+			
+			document.getElementById('results').innerHTML = resultsStr;
+		}
+		
+		function assertE(a, b, desc) {
+			if(a !== b){
+				results.push('Failed: Expected \'' + a + '\' equal to \'' + b + '\'.');
+				didPass = false;
+			} else {
+				results.push('Passed: Confirmed \'' + a + '\' equal to \'' + b + '\'.');
+			}
+		}
+		
+		function assertNE(a, b, desc) {
+			if(a === b){
+				results.push('Failed: Expected \'' + a + '\' not equal to \'' + b + '\'.');
+				didPass = false;
+			} else {
+				results.push('Passed: Confirmed \'' + a + '\' not equal to \'' + b + '\'.');
+			}
+		}
+		
+		function assertG(a, b, desc) {
+			if(a <= b){
+				results.push('Failed: Expected \'' + a + '\' greater than \'' + b + '\'.');
+				didPass = false;
+			} else {
+				results.push('Passed: Confirmed \'' + a + '\' greater than \'' + b + '\'.');
+			}
+		}
+		
+		function assertGE(a, b, desc) {
+			if(a < b){
+				results.push('Failed: Expected \'' + a + '\' greater than or equal to \'' + b + '\'.');
+				didPass = false;
+			} else {
+				results.push('Passed: Confirmed \'' + a + '\' greater than or equal to \'' + b + '\'.');
+			}
+		}
+		
+		function assertL(a, b, desc) {
+			if(a >= b){
+				results.push('Failed: Expected \'' + a + '\' lesser than \'' + b + '\'.');
+				didPass = false;
+			} else {
+				results.push('Passed: Confirmed \'' + a + '\' lesser than \'' + b + '\'.');
+			}
+		}
+		
+		function assertLE(a, b, desc) {
+			if(a > b){
+				results.push('Failed: Expected \'' + a + '\' lesser than or equal to \'' + b + '\'.');
+				didPass = false;
+			} else {
+				results.push('Passed: Confirmed \'' + a + '\' lesser than or equal to \'' + b + '\'.');
+			}
+		}
+		
+		function assertNoException(func) {
+			try{
+				func();
+				results.push('Passed: Confirmed no exception.')
+			} catch(err) {
+				results.push('Failed: Expected no exception but exception thrown. ' + err);
+			}
+		}
+		
+		function assertException(func) {
+			try{
+				func();
+				results.push('Failed: Expected exception but not thrown.');
+			} catch(err) {
+				results.push('Passed: Confirmed exception thrown. ' + err);
+			}
+		}
+		
+		function _test(desc, func) {
+			try{
+				results.push('Starting Test: ' + desc);
+				func(desc);
+			} catch(err) {
+				results.push('Exception: ' + err);
+				didPass = false;
+			}
+		}
+		
+		function runTests() {
+			var jsonPatch;
+			try {
+				jsonPatch = new JSONPatch();
+			} catch (err) {
+				errors.push('Unable to initialize JSONPatch. ' + err);
+				finishTest();
+				return;
+			}
+			
+			var testObject = {
+				foo: 'bar',
+				foo2: {
+					foo3: 'bar3',
+					foo4: {
+						foo5: [
+							{
+								foo6: {
+									foo7: [0,1,2,3,4,5]
+								},
+								foo8: 'bar8'
+							},
+							'arr2',
+							42
+						],
+						foo9: 'bar9'
+					},
+					foo10: 100,
+					foo11: 'bar11'
+				}
+			};
+			
+			var testObjectStr = JSON.stringify(testObject);
+			
+			
+			_test('resolveJSONPointer generates correct path for object', function(desc){
+				assertE(resolveJSONPointer(testObjectStr, '/foo'), 'bar', desc);
+				assertE(resolveJSONPointer(testObjectStr, '/foo2/foo3'), 'bar3', desc);
+				assertE(resolveJSONPointer(testObjectStr, '/foo2/foo4/foo5/0/foo6/foo7/2'), 2, desc);
+			});
+			
+			_test('validatePatchDoc works with valid patch', function(desc){
+				var patchDoc = [
+					{ "test": "/a/b/c", value: "foo" },
+					{ "remove": "/a/b/c", value: "foo" },
+					{ "add": "/a/b/c", "value": [ "foo", "bar" ] },
+					{ "replace": "/a/b/c", "value": 42, replacedValue: 24 },
+					{ "move": "/a/b/c", to: "/a/b/d" },
+				];				
+				assertE(jsonPatch.validatePatchDoc(patchDoc), true, desc);
+			});
+			
+			_test('validatePatchDoc fails when no valid operation', function(desc){
+				var patchDoc = [
+					{ "test": "/a/b/c", value: "foo" },
+					{ "remove": "/a/b/c", value: "foo" },
+					{ "add": "/a/b/c", "value": [ "foo", "bar" ] },
+					{ "replace": "/a/b/c", "value": 42, replacedValue: 24 },
+					{ "move": "/a/b/c", to: "/a/b/d" },
+					{ "bad": "/a/b/c", "value": 42 },
+				];				
+				assertNE(jsonPatch.validatePatchDoc(patchDoc), true, desc);
+			});
+			
+			_test('validate patch fails when missing required meta members', function(desc){
+				var patchDoc = [
+					{ "test": "/a/b/c", value: "foo" },
+					{ "remove": "/a/b/c", value: "foo" },
+					{ "add": "/a/b/c" }, //missing value
+					{ "replace": "/a/b/c", "value": 42, replacedValue: 24 },
+					{ "move": "/a/b/c", to: "/a/b/d" },
+				];				
+				assertNE(jsonPatch.validatePatchDoc(patchDoc), true, desc);
+			});
+			
+			_test('applyPatchOperation works for test operation', function(desc){
+				var patchDoc = [
+					{ "test": "/foo2/foo3", value: "bar3" }
+				];
+				assertNoException(function(){
+					jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);
+				});
+			});
+			
+			_test('applyPatchOperation works for test operation, fail case', function(desc){
+				var patchDoc = [
+					{ "test": "/foo2/foo3", value: "notbar3" }
+				];
+				assertException(function(){
+					jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);
+				});
+			});
+			
+			_test('applyPatchOperation works for remove operation', function(desc){
+				var patchDoc = [
+					{ "remove": "/foo2/foo4/foo5/0/foo8", "value": "bar8" },
+				];
+				jsonPatch.applyPatchOperation(testObjectStr, { "test": "/foo2/foo4/foo5/0/foo8", value: 'bar8' });
+				var modifiedDoc = jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0");
+				assertE(typeof(parent['foo8']), 'undefined', desc);
+			});
+			
+			_test('applyPatchOperation works for remove operation within array, shifting array members to left', function(desc){
+				var patchDoc = [
+					{ "remove": "/foo2/foo4/foo5/0/foo6/foo7/1", "value": 1 },
+				];
+				var modifiedDoc = jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parent[1], 2, desc);
+			});
+			
+			_test('applyPatchOperation works for add operation', function(desc){
+				var patchDoc = [
+					{ "add": "/foo2/foo4/foo5/0/foo6/answer", "value": 42 },
+				];
+				var modifiedDoc = jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6");
+				assertE(parent['answer'], 42, desc);
+			});
+			
+			_test('applyPatchOperation works for add operation within array, shifting array members to right', function(desc){
+				var patchDoc = [
+					{ "add": "/foo2/foo4/foo5/0/foo6/foo7/1", "value": 100 },
+				];
+				var modifiedDoc = jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parent[1], 100, desc);
+				assertE(parent[2], 1, desc);
+			});
+			
+			_test('applyPatchOperation works for replace operation', function(desc){
+				var patchDoc = [
+					{ "replace": "/foo2/foo4/foo5/0/foo6/foo7/1", "value": 100, "replacedValue": 1 },
+				];
+				var modifiedDoc = jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parent[1], 100, desc);
+				assertE(parent[2], 2, desc);
+			});
+			
+			_test('applyPatchOperation works for move operation', function(desc){
+				var patchDoc = [
+					{ "move": "/foo2/foo4/foo5/0/foo8", "to": "/foo2/foo4/foo5/0/foo6/foo8" },
+				];
+				var modifiedDoc = jsonPatch.applyPatchOperation(testObjectStr, patchDoc[0]);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6");
+				var oldParent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0");
+				assertNE(typeof(parent['foo8']), 'undefined', desc);
+				assertE(typeof(oldParent['foo8']), 'undefined', desc);
+			});
+			
+			_test('runPatch works for test operation', function(desc){
+				var patchDoc = [
+					{ "test": "/foo2/foo3", value: "bar3" }
+				];
+				assertNoException(function(){
+					jsonPatch.applyPatchOperation(testObjectStr, patchDoc);
+				});
+			});
+			
+			_test('runPatch works for test operation, fail case', function(desc){
+				var patchDoc = [
+					{ "test": "/foo2/foo3", value: "notbar3" }
+				];
+				assertException(function(){
+					jsonPatch.runPatch(testObjectStr, patchDoc);
+				});
+			});
+			
+			_test('runPatch works for remove operation', function(desc){
+				var patchDoc = [
+					{ "remove": "/foo2/foo4/foo5/0/foo8", "value": "bar8" },
+				];
+				jsonPatch.applyPatchOperation(testObjectStr, { "test": "/foo2/foo4/foo5/0/foo8", value: 'bar8' });
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0");
+				assertE(typeof(parent['foo8']), 'undefined', desc);
+			});
+			
+			_test('runPatch works for remove operation within array, shifting array members to left', function(desc){
+				var patchDoc = [
+					{ "remove": "/foo2/foo4/foo5/0/foo6/foo7/1", "value": 1 },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parent[1], 2, desc);
+			});
+			
+			_test('runPatch works for add operation', function(desc){
+				var patchDoc = [
+					{ "add": "/foo2/foo4/foo5/0/foo6/answer", "value": 42 },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6");
+				assertE(parent['answer'], 42, desc);
+			});
+			
+			_test('runPatch works for add operation within array, shifting array members to right', function(desc){
+				var patchDoc = [
+					{ "add": "/foo2/foo4/foo5/0/foo6/foo7/1", "value": 100 },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parent[1], 100, desc);
+				assertE(parent[2], 1, desc);
+			});
+			
+			_test('runPatch works for replace operation', function(desc){
+				var patchDoc = [
+					{ "replace": "/foo2/foo4/foo5/0/foo6/foo7/1", "value": 100, "replacedValue": 1 },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parent[1], 100, desc);
+				assertE(parent[2], 2, desc);
+			});
+			
+			_test('runPatch works for move operation', function(desc){
+				var patchDoc = [
+					{ "move": "/foo2/foo4/foo5/0/foo8", "to": "/foo2/foo4/foo5/0/foo6/foo8" },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6");
+				var oldParent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0");
+				assertNE(typeof(parent['foo8']), 'undefined', desc);
+				assertE(typeof(oldParent['foo8']), 'undefined', desc);
+			});
+			
+			_test('runPatch works for multiple operations', function(desc){
+				var patchDoc = [
+					{ "move": "/foo2/foo4/foo5/0/foo8", "to": "/foo2/foo4/foo5/0/foo6/foo8" },
+					{ "replace": "/foo2/foo4/foo5/0/foo6/foo8", "value": 'notbar8', "replacedValue": 'bar8' },
+					{ "add": "/foo2/foo4/foo5/0/foo6/answer", "value": 42},
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6");
+				assertE(parent['foo8'], 'notbar8', desc);
+				assertE(parent['answer'], 42, desc);
+			});
+			
+			_test('reversePatch works', function(desc){
+				var patchDoc = [
+					{ "move": "/foo2/foo4/foo5/0/foo8", "to": "/foo2/foo4/foo5/0/foo6/foo8" },
+					{ "replace": "/foo2/foo4/foo5/0/foo6/foo8", "value": 'notbar8', "replacedValue": 'bar8' },
+					{ "add": "/foo2/foo4/foo5/0/foo6/answer", "value": 42},
+				];
+				var reversePatchDoc = jsonPatch.reversePatch(patchDoc);	
+				assertNE(typeof(reversePatchDoc[2]['move']), 'undefined', desc);
+				assertNE(typeof(reversePatchDoc[1]['replace']), 'undefined', desc);
+				assertNE(typeof(reversePatchDoc[0]['remove']), 'undefined', desc);
+				assertE(reversePatchDoc[2]['to'], '/foo2/foo4/foo5/0/foo8', desc);
+				assertE(reversePatchDoc[2]['move'], '/foo2/foo4/foo5/0/foo6/foo8', desc);
+				assertE(reversePatchDoc[1]['value'], 'bar8', desc);
+				assertE(reversePatchDoc[1]['replacedValue'], 'notbar8', desc);
+			});
+
+			_test('runPatch works for remove operation in reverse', function(desc){
+				var patchDoc = [
+					{ "remove": "/foo2/foo4/foo5/0/foo8", "value": "bar8" },
+				];
+				jsonPatch.applyPatchOperation(testObjectStr, { "test": "/foo2/foo4/foo5/0/foo8", value: 'bar8' });
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0");
+				assertE(typeof(parent['foo8']), 'undefined', desc);
+				
+				var modifiedDocUndo = jsonPatch.runPatch(modifiedDoc, patchDoc, true);
+				var parentUndo = resolveJSONPointer(modifiedDocUndo, "/foo2/foo4/foo5/0");
+				assertNE(typeof(parentUndo['foo8']), 'undefined', desc);
+			});
+			
+			_test('runPatch works for add operation in reverse', function(desc){
+				var patchDoc = [
+					{ "add": "/foo2/foo4/foo5/0/foo6/answer", "value": 42 },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6");
+				assertE(parent['answer'], 42, desc);
+				
+				var modifiedDocUndo = jsonPatch.runPatch(modifiedDoc, patchDoc, true);
+				var parentUndo = resolveJSONPointer(modifiedDocUndo, "/foo2/foo4/foo5/0/foo6");
+				assertE(typeof(parentUndo['answer']), 'undefined', desc);
+			});
+			
+			_test('runPatch works for replace operation in reverse', function(desc){
+				var patchDoc = [
+					{ "replace": "/foo2/foo4/foo5/0/foo6/foo7/1", "value": 100, "replacedValue": 1 },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parent[1], 100, desc);
+				assertE(parent[2], 2, desc);
+				
+				var modifiedDocUndo = jsonPatch.runPatch(modifiedDoc, patchDoc, true);
+				var parentUndo = resolveJSONPointer(modifiedDocUndo, "/foo2/foo4/foo5/0/foo6/foo7");
+				assertE(parentUndo[1], 1, desc);
+				assertE(parentUndo[2], 2, desc);
+			});
+			
+			_test('runPatch works for move operation in reverse', function(desc){
+				var patchDoc = [
+					{ "move": "/foo2/foo4/foo5/0/foo8", "to": "/foo2/foo4/foo5/0/foo6/foo8" },
+				];
+				var modifiedDoc = jsonPatch.runPatch(testObjectStr, patchDoc);	
+				var parent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0/foo6");
+				var oldParent = resolveJSONPointer(modifiedDoc, "/foo2/foo4/foo5/0");
+				assertNE(typeof(parent['foo8']), 'undefined', desc);
+				assertE(typeof(oldParent['foo8']), 'undefined', desc);
+				
+				var modifiedDocUndo = jsonPatch.runPatch(modifiedDoc, patchDoc, true);
+				var parentUndo = resolveJSONPointer(modifiedDocUndo, "/foo2/foo4/foo5/0/foo6");
+				var oldParentUndo = resolveJSONPointer(modifiedDocUndo, "/foo2/foo4/foo5/0");
+				assertE(typeof(parentUndo['foo8']), 'undefined', desc);
+				assertNE(typeof(oldParentUndo['foo8']), 'undefined', desc);
+			});
+
+			_test('generatePatch works for remove operation', function(desc){
+				var diffObject = {
+					foo: 'bar',
+					foo2: {
+						foo3: 'bar3',
+						foo4: {
+							foo5: [
+								{
+									foo6: {
+										foo7: [0,1,2,3,4,5]
+									},
+									foo8: 'bar8'
+								},
+								'arr2',
+								42
+							]
+						},
+						foo10: 100,
+						foo11: 'bar11'
+					}
+				};
+				
+				var patchDoc = jsonPatch.generatePatch(testObjectStr, JSON.stringify(diffObject));	
+				
+				assertG(patchDoc.length, 0, desc);
+				assertNE(typeof(patchDoc[0]['remove']), 'undefined', desc);
+				assertE(patchDoc[0]['remove'], 'foo2/foo4/foo9', desc);
+			});
+			
+			_test('generatePatch works for add operation', function(desc){
+				var diffObject = {
+					foo: 'bar',
+					foo2: {
+						foo3: 'bar3',
+						foo4: {
+							foo5: [
+								{
+									foo6: {
+										foo7: [0,1,2,3,4,5]
+									},
+									foo8: 'bar8'
+								},
+								'arr2',
+								42
+							],
+							foo9: 'bar9',
+							answer: 42
+						},
+						foo10: 100,
+						foo11: 'bar11'
+					}
+				};
+				
+				var patchDoc = jsonPatch.generatePatch(testObjectStr, JSON.stringify(diffObject));	
+				
+				assertG(patchDoc.length, 0, desc);
+				assertNE(typeof(patchDoc[0]['add']), 'undefined', desc);
+				assertE(patchDoc[0]['add'], '/foo2/foo4/answer/', desc);
+				assertE(patchDoc[0]['value'], 42, desc);
+			});
+						
+			_test('generatePatch works for replace operation', function(desc){
+				var diffObject = {
+					foo: 'bar',
+					foo2: {
+						foo3: 'bar3',
+						foo4: {
+							foo5: [
+								{
+									foo6: {
+										foo7: [0,1,2,3,4,5]
+									},
+									foo8: 'bar8'
+								},
+								'arr2',
+								42
+							],
+							foo9: 'replaced',
+						},
+						foo10: 100,
+						foo11: 'bar11'
+					}
+				};
+				
+				var patchDoc = jsonPatch.generatePatch(testObjectStr, JSON.stringify(diffObject));	
+				
+				assertG(patchDoc.length, 0, desc);
+				assertNE(typeof(patchDoc[0]['replace']), 'undefined', desc);
+				assertE(patchDoc[0]['replace'], '/foo2/foo4/foo9/', desc);
+				assertE(patchDoc[0]['value'], 'replaced', desc);
+				assertE(patchDoc[0]['replacedValue'], 'bar9', desc);
+			});
+			
+			_test('generatePatch works for move operation', function(desc){
+				var diffObject = {
+					foo: 'bar',
+					foo2: {
+						foo3: 'bar3',
+						foo4: {
+							foo5: [
+								{
+									foo6: {
+										foo7: [0,1,2,3,4,5],
+										foo8: 'bar8'
+									},
+								},
+								'arr2',
+								42
+							],
+							foo9: 'bar9',
+						},
+						foo10: 100,
+						foo11: 'bar11'
+					}
+				};
+				
+				var patchDoc = jsonPatch.generatePatch(testObjectStr, JSON.stringify(diffObject));	
+				
+				assertG(patchDoc.length, 0, desc);
+				assertNE(typeof(patchDoc[0]['move']), 'undefined', desc);
+				assertE(patchDoc[0]['move'], '/foo2/foo4/foo5/0/foo8/', desc);
+				assertE(patchDoc[0]['to'], '/foo2/foo4/foo5/0/foo6/foo8/', desc);
+			});
+			
+			_test('generatePatch works for multiple operation generation', function(desc){
+				var diffObject = {
+					foo: 'bar',
+					foo2: {
+						foo3: 'bar3',
+						foo4: {
+							foo5: [
+								{
+									foo6: {
+										foo7: [0,1,3,4,5],
+										foo8: 'bar8'
+									},
+								},
+								'arr2',
+								42
+							],
+							foo9: 'bar9',
+						},
+						foo10: 100,
+						foo11: 'bar11'
+					}
+				};
+				
+				var patchDoc = jsonPatch.generatePatch(testObjectStr, JSON.stringify(diffObject));	
+				
+				assertE(patchDoc.length, 2, desc);
+				assertNE(typeof(patchDoc[0]['move']), 'undefined', desc);
+				assertE(patchDoc[0]['move'], '/foo2/foo4/foo5/0/foo8/', desc);
+				assertE(patchDoc[0]['to'], '/foo2/foo4/foo5/0/foo6/foo8/', desc);
+				
+				assertNE(typeof(patchDoc[1]['replace']), 'undefined', desc);
+				assertE(patchDoc[1]['replace'], 'foo2/foo4/foo5/0/foo6/foo7', desc);
+				assertE(patchDoc[1]['value'][2], 3, desc);
+				
+				
+			});
+			
+			finishTest();
+		}
+	</script>
+</head>
+<body onLoad='runTests();'>
+	<div id='results'>
+		<h1>Running Tests...</h1>
+	</div>
+</body>
+</html>

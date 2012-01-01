@@ -1,0 +1,671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - JSONPatch</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/JSONPatch.html">JSONPatch</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class JSONPatch
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				A class allowing the application of JSON Patch Documents corresponding to:
+ draft-pbryan-json-patch-04 http://tools.ietf.org/html/draft-pbryan-json-patch-04
+ with the addition of 'value' in 'remove' operation and 'replacedValue' in 'replace'
+ operation. These additions allow for both forward and reverse JSON patching.
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_greg_Projects_JSONPatch_src_jsonpatch.js.html">jsonpatch.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class JSONPatch.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/JSONPatch.html#constructor">JSONPatch</a></b>()
+							</div>
+							<div class="description">Creates a JSON Patch class.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class JSONPatch.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/JSONPatch.html#validOperations">validOperations</a></b>
+								</div>
+								<div class="description">Operations currently supported within a JSONPatch document.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class JSONPatch.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/JSONPatch.html#applyPatchOperation">applyPatchOperation</a></b>(originalDocument, operation)
+								</div>
+								<div class="description">Applies one of the following validOperations, modifying originalDocument.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/JSONPatch.html#generatePatch">generatePatch</a></b>(originalDocument, diffDocument)
+								</div>
+								<div class="description">Generates a JSON patch document by finding differences between originalDocument and diffDocument.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/JSONPatch.html#reversePatch">reversePatch</a></b>(patchDoc)
+								</div>
+								<div class="description">Reverses patch document, typically used for undoing patch.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/JSONPatch.html#runPatch">runPatch</a></b>(originalDoc, patchDoc, reverse)
+								</div>
+								<div class="description">Validates and runs patchDoc on originalDoc.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/JSONPatch.html#validatePatchDoc">validatePatchDoc</a></b>(patchDoc)
+								</div>
+								<div class="description">Validates patch document ensuring that one of the validOperations is present within each
+        operation and that necessary meta members are present per operation type.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>JSONPatch</b>()
+				</div>
+				
+				<div class="description">
+					Creates a JSON Patch class.
+					<br /><i>Author: </i><a href="mailto:greg@fezo.com">Greg Ray</a>.
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="validOperations"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>validOperations</b>
+					
+					</div>
+					<div class="description">
+						Operations currently supported within a JSONPatch document.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="applyPatchOperation"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>applyPatchOperation</b>(originalDocument, operation)
+					
+					</div>
+					<div class="description">
+						Applies one of the following validOperations, modifying originalDocument.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object|String}</span> <b>originalDocument</b>
+									
+								</dt>
+								<dd>A JSON document (parsed or text).</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object|String}</span> <b>operation</b>
+									
+								</dt>
+								<dd>A valid patch operation to run on originalDocument.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> A patched originalDocument.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="generatePatch"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>generatePatch</b>(originalDocument, diffDocument)
+					
+					</div>
+					<div class="description">
+						Generates a JSON patch document by finding differences between originalDocument and diffDocument.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object|String}</span> <b>originalDocument</b>
+									
+								</dt>
+								<dd>A JSON document (parsed or text).</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object|String}</span> <b>diffDocument</b>
+									
+								</dt>
+								<dd>A JSON document (parsed or text).</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> A valid JSON patch document.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="reversePatch"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>reversePatch</b>(patchDoc)
+					
+					</div>
+					<div class="description">
+						Reverses patch document, typically used for undoing patch.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object|String}</span> <b>patchDoc</b>
+									
+								</dt>
+								<dd>A JSON Patch Document (parsed or text).</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> A valid JSON patch document, with both order and operations reversed.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="runPatch"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>runPatch</b>(originalDoc, patchDoc, reverse)
+					
+					</div>
+					<div class="description">
+						Validates and runs patchDoc on originalDoc. If originalDoc is of Object type, originalDoc will by modified by ref.
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">        [
+        	{ "test": "/a/b/c", value: "foo" },
+        	{ "remove": "/a/b/c", value: "foo" },
+        	{ "add": "/a/b/c", "value": [ "foo", "bar" ] },
+        	{ "replace": "/a/b/c", "value": 42, replacedValue: 24 },
+        	{ "move": "/a/b/c", to: "/a/b/d" },
+        ];</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object|String}</span> <b>originalDoc</b>
+									
+								</dt>
+								<dd>A JSON document (parsed or text) that will be patched.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array|String}</span> <b>patchDoc</b>
+									
+								</dt>
+								<dd>A JSON document array (parsed or text) that will be used to patch originalDoc.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>reverse</b>
+									<i>Optional, Default: false</i>
+								</dt>
+								<dd>Indicates wether the patch should be reversed, typically for undoing a patch.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="validatePatchDoc"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>validatePatchDoc</b>(patchDoc)
+					
+					</div>
+					<div class="description">
+						Validates patch document ensuring that one of the validOperations is present within each
+        operation and that necessary meta members are present per operation type.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object|String}</span> <b>patchDoc</b>
+									
+								</dt>
+								<dd>A JSON Patch Document (parsed or text).</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> True if patch is valid.</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sun Jan 01 2012 05:01:12 GMT-0700 (MST)
+		</div>
+	</body>
+</html>
