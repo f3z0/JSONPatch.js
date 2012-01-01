@@ -10,4 +10,16 @@ oP' `YooP' `YooP' 8   `8  8      `YooP8   8  `YooP' 8    8  @  8 `YooP'
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::oP :::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::..::::::::
 
-An implementation of http://tools.ietf.org/html/draft-pbryan-json-patch-04.
+1) An implementation of http://tools.ietf.org/html/draft-pbryan-json-patch-04.
+
+2) Very necessary when you have a JSON document in two locations and you only want to sync using diffs.
+
+3) Supports bi-directional patching of JSON documents.
+
+4) Full patch generation support.
+
+5) Check out /doc/index.html for descriptions of all class functions.
+
+6) Check out /test/index.html for examples of how to use.
+
+7) New library needing some peer review love.
